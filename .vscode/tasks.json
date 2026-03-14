@@ -1,0 +1,103 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Release x64",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/build-dev.ps1",
+                "-BuildType", "Build",
+                "-Configuration", "Release",
+                "-Platform", "x64"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            }
+        },
+        {
+            "label": "Rebuild Release x64",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/build-dev.ps1",
+                "-BuildType", "Rebuild",
+                "-Configuration", "Release",
+                "-Platform", "x64"
+            ],
+            "group": "build",
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            }
+        },
+        {
+            "label": "Build Release Lite x64",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/build-dev.ps1",
+                "-BuildType", "Build",
+                "-Configuration", "Release Lite",
+                "-Platform", "x64"
+            ],
+            "group": "build",
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            }
+        },
+        {
+            "label": "Build Debug x64",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/build-dev.ps1",
+                "-BuildType", "Build",
+                "-Configuration", "Debug",
+                "-Platform", "x64"
+            ],
+            "group": "build",
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            }
+        },
+        {
+            "label": "Clean Release x64",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/build-dev.ps1",
+                "-BuildType", "Clean",
+                "-Configuration", "Release",
+                "-Platform", "x64"
+            ],
+            "group": "build",
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            }
+        }
+    ]
+}
