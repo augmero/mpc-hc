@@ -78,7 +78,7 @@ UINT DpiHelper::GetDPIForWindow(HWND wnd) {
     // note: GetDpiForMonitor available since 8.1, GetDPIForWindow since 10 1607
 
     //try number 1
-    const WinapiFunc<decltype(GetDpiForWindow)> fnGetDpiForWindow = { _T("user32.dll"), "GetDpiForWindow" };
+    const WinapiFunc<UINT WINAPI(HWND)> fnGetDpiForWindow = { _T("user32.dll"), "GetDpiForWindow" };
     if (fnGetDpiForWindow) {
         return fnGetDpiForWindow(wnd);
     }
@@ -159,7 +159,7 @@ void DpiHelper::GetMessageFont(LOGFONT* lf) {
 }
 
 bool DpiHelper::GetNonClientMetrics(PNONCLIENTMETRICSW ncm, bool& dpiCorrected) {
-    const WinapiFunc<decltype(SystemParametersInfoForDpi)>
+    const WinapiFunc<BOOL WINAPI(UINT, UINT, PVOID, UINT, UINT)>
         fnSystemParametersInfoForDpi = { L"user32.dll", "SystemParametersInfoForDpi" };
 
     ZeroMemory(ncm, sizeof(NONCLIENTMETRICS));
@@ -179,19 +179,13 @@ bool DpiHelper::GetNonClientMetrics(PNONCLIENTMETRICSW ncm, bool& dpiCorrected) 
 }
 
 int DpiHelper::GetSystemMetrics(int type) {
-    const WinapiFunc<decltype(GetSystemMetricsForDpi)>
+    const WinapiFunc<int WINAPI(int, UINT)>
         fnGetSystemMetricsForDpi = { L"user32.dll", "GetSystemMetricsForDpi" };
 
-    bool dpiCorrected = false;
-
     if (fnGetSystemMetricsForDpi) {
-        dpiCorrected = true;
-        return fnGetSystemMetricsForDpi(type);
+        return fnGetSystemMetricsForDpi(type, m_dpix);
     }
-    if (!dpiCorrected) {
-        int ret = fnGetSystemMetricsForDpi(type);
-        return ScaleSystemToOverrideY(ret);
-    }
+    return ScaleSystemToOverrideY(::GetSystemMetrics(type));
 }
 
 bool DpiHelper::CanUsePerMonitorV2() {
